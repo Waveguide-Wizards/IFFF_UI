@@ -10,13 +10,13 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./grlib_demo.obj" \
+"./IFFF_UI.obj" \
 "./images.obj" \
 "./startup_ccs.obj" \
 "./drivers/Kentec320x240x16_ssd2119_spi.obj" \
 "./drivers/touch.obj" \
 "./utils/ustdlib.obj" \
-"../grlib_demo_ccs.cmd" \
+"../IFFF_UI_ccs.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibc.a \
 -l"C:/ti/tivaware_c_series_2_1_4_178/driverlib/ccs/Debug/driverlib.lib" \
@@ -131,34 +131,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-grlib_demo.out \
+IFFF_UI.out \
 
 EXE_OUTPUTS__QUOTED += \
-"grlib_demo.out" \
+"IFFF_UI.out" \
 
 BIN_OUTPUTS += \
-grlib_demo.bin \
+IFFF_UI.bin \
 
 BIN_OUTPUTS__QUOTED += \
-"grlib_demo.bin" \
+"IFFF_UI.bin" \
 
 
 # All Target
-all: grlib_demo.out
+all: IFFF_UI.out
 
 # Tool invocations
-grlib_demo.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+IFFF_UI.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -O2 --advice:power=all --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=TARGET_IS_TM4C123_RB1 -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi --ual -z -m"grlib_demo_ccs.map" --heap_size=0 --stack_size=1024 -i"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/lib" -i"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="grlib_demo_linkInfo.xml" --rom_model -o "grlib_demo.out" $(ORDERED_OBJS)
+	"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me -O2 --advice:power=all --define=ccs="ccs" --define=PART_TM4C123GH6PM --define=TARGET_IS_TM4C123_RB1 -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --gen_func_subsections=on --abi=eabi --ual -z -m"grlib_demo_ccs.map" --heap_size=0 --stack_size=1024 -i"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/lib" -i"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="IFFF_UI_linkInfo.xml" --rom_model -o "IFFF_UI.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
-grlib_demo.bin: $(EXE_OUTPUTS)
+IFFF_UI.bin: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armhex"  -o "grlib_demo.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armhex"  -o "IFFF_UI.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -166,13 +166,13 @@ grlib_demo.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "grlib_demo.obj" "images.obj" "startup_ccs.obj" "drivers\Kentec320x240x16_ssd2119_spi.obj" "drivers\touch.obj" "utils\ustdlib.obj" 
-	-$(RM) "grlib_demo.d" "images.d" "startup_ccs.d" "drivers\Kentec320x240x16_ssd2119_spi.d" "drivers\touch.d" "utils\ustdlib.d" 
+	-$(RM) "IFFF_UI.obj" "images.obj" "startup_ccs.obj" "drivers\Kentec320x240x16_ssd2119_spi.obj" "drivers\touch.obj" "utils\ustdlib.obj" 
+	-$(RM) "IFFF_UI.d" "images.d" "startup_ccs.d" "drivers\Kentec320x240x16_ssd2119_spi.d" "drivers\touch.d" "utils\ustdlib.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccs920/ccs/utils/tiobj2bin/tiobj2bin" "grlib_demo.out" "grlib_demo.bin" "C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armofd" "C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armhex" "C:/ti/ccs920/ccs/utils/tiobj2bin/mkhex4bin"
+	-"C:/ti/ccs920/ccs/utils/tiobj2bin/tiobj2bin" "IFFF_UI.out" "IFFF_UI.bin" "C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armofd" "C:/ti/ccs920/ccs/tools/compiler/ti-cgt-arm_18.12.3.LTS/bin/armhex" "C:/ti/ccs920/ccs/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

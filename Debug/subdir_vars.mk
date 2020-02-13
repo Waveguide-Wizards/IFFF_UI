@@ -6,35 +6,35 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-../grlib_demo_ccs.cmd 
+../IFFF_UI_ccs.cmd 
 
 C_SRCS += \
-../grlib_demo.c \
+../IFFF_UI.c \
 ../images.c \
 ../startup_ccs.c 
 
 C_DEPS += \
-./grlib_demo.d \
+./IFFF_UI.d \
 ./images.d \
 ./startup_ccs.d 
 
 OBJS += \
-./grlib_demo.obj \
+./IFFF_UI.obj \
 ./images.obj \
 ./startup_ccs.obj 
 
 OBJS__QUOTED += \
-"grlib_demo.obj" \
+"IFFF_UI.obj" \
 "images.obj" \
 "startup_ccs.obj" 
 
 C_DEPS__QUOTED += \
-"grlib_demo.d" \
+"IFFF_UI.d" \
 "images.d" \
 "startup_ccs.d" 
 
 C_SRCS__QUOTED += \
-"../grlib_demo.c" \
+"../IFFF_UI.c" \
 "../images.c" \
 "../startup_ccs.c" 
 
