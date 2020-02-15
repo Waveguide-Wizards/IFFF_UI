@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./IFFF_UI.obj" \
 "./images.obj" \
 "./startup_ccs.obj" \
+"./UI/UI.obj" \
 "./drivers/Kentec320x240x16_ssd2119_spi.obj" \
 "./drivers/touch.obj" \
 "./utils/ustdlib.obj" \
@@ -30,9 +31,11 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include UI/subdir_vars.mk
 -include drivers/subdir_vars.mk
 -include utils/subdir_vars.mk
 -include subdir_rules.mk
+-include UI/subdir_rules.mk
 -include drivers/subdir_rules.mk
 -include utils/subdir_rules.mk
 -include objects.mk
@@ -166,8 +169,8 @@ IFFF_UI.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "IFFF_UI.obj" "images.obj" "startup_ccs.obj" "drivers\Kentec320x240x16_ssd2119_spi.obj" "drivers\touch.obj" "utils\ustdlib.obj" 
-	-$(RM) "IFFF_UI.d" "images.d" "startup_ccs.d" "drivers\Kentec320x240x16_ssd2119_spi.d" "drivers\touch.d" "utils\ustdlib.d" 
+	-$(RM) "IFFF_UI.obj" "images.obj" "startup_ccs.obj" "UI\UI.obj" "drivers\Kentec320x240x16_ssd2119_spi.obj" "drivers\touch.obj" "utils\ustdlib.obj" 
+	-$(RM) "IFFF_UI.d" "images.d" "startup_ccs.d" "UI\UI.d" "drivers\Kentec320x240x16_ssd2119_spi.d" "drivers\touch.d" "utils\ustdlib.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
