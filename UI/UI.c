@@ -15,15 +15,148 @@
 static tDMAControlTable psDMAControlTable[64];
 static tContext sContext;
 static tRectangle sRect;
-
-
+extern tCanvasWidget g_psPanelsUI[];
 
 // *** Select Memory Integration Test
 //
-RectangularButton(g_sMemTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
-                  50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
-                  &g_sFontCm20, "[]", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-                  UI_ReturnHome);
+//RectangularButton(g_sMemTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
+//                  50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
+//                  &g_sFontCm20, "[]", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
+//                  UI_ReturnHome);
+
+
+//*****************************************************************************
+// The names for each of the panels, which is displayed at the bottom of the
+// screen.
+//*****************************************************************************
+char *g_pcPanei32NamesUI[] =
+{
+    "     Warm Up       ",
+    "     Introduction  ",
+    "     Test Menu     ",
+    "     Memory Test   ",
+    "     File System   ",
+    "     Confirm File  ",
+    "     Transferring  ",
+    "     Test Complete ",
+    "     S/W Update    ",
+    "     Motor Test    ",
+    "     In Progress   ",
+    "     Limit Reached ",
+    "     Test Complete "
+};
+
+//*****************************************************************************
+// The panel that is currently being displayed.
+//*****************************************************************************
+uint32_t g_ui32Panel;
+
+//*****************************************************************************
+// 0 - Warm Up Panel
+//*****************************************************************************
+Canvas(g_sWarmUp, g_psPanelsUI, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnWarmUpPaint);
+
+//*****************************************************************************
+// 1 - Introduction Panel
+//*****************************************************************************
+Canvas(g_sIntro, g_psPanelsUI + 1, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnIntroPaint);
+
+//*****************************************************************************
+// 2 - Integration Test Menu Panel
+//*****************************************************************************
+Canvas(g_sTestMenu, g_psPanelsUI + 2, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTestMenuPaint);
+
+//*****************************************************************************
+// 3 - Memory Test Panel
+//*****************************************************************************
+Canvas(g_sMemTest, g_psPanelsUI + 3, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMemTestPaint);
+
+//*****************************************************************************
+// 4 - File System Panel
+//*****************************************************************************
+Canvas(g_sFilesystem, g_psPanelsUI + 4, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnFilesystemPaint);
+
+//*****************************************************************************
+// 5 - Confirm File Selection Panel
+//*****************************************************************************
+Canvas(g_sFileSel, g_psPanelsUI + 5, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnFileSelPaint);
+
+//*****************************************************************************
+// 6 - Memory Transfer In Progress Panel
+//*****************************************************************************
+Canvas(g_sTransfer, g_psPanelsUI + 6, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTransferPaint);
+
+//*****************************************************************************
+// 7 - Memory Test Complete Panel
+//*****************************************************************************
+Canvas(g_sMemComplete, g_psPanelsUI + 7, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMemCompletePaint);
+
+//*****************************************************************************
+// 8 - Motor Test Start Panel
+//*****************************************************************************
+Canvas(g_sMotorTest, g_psPanelsUI + 8, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMotorTestPaint);
+
+//*****************************************************************************
+// 9 - Motor Test In Progress Panel
+//*****************************************************************************
+Canvas(g_sMotorGo, g_psPanelsUI + 9, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMotorGoPaint);
+
+//*****************************************************************************
+// 10 - Motor Collision Panel
+//*****************************************************************************
+Canvas(g_sMotorCol, g_psPanelsUI + 10, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMotorColPaint);
+
+//*****************************************************************************
+// 11 - Motor Test Complete Panel
+//*****************************************************************************
+Canvas(g_sMotorComplete, g_psPanelsUI + 11, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnMotorCompletePaint);
+
+//*****************************************************************************
+// An array of canvas widgets, one per panel.  Each canvas is filled with
+// black, overwriting the contents of the previous panel.
+//*****************************************************************************
+tCanvasWidget g_psPanelsUI[] =
+{
+    CanvasStruct(0, 0, &g_sWarmUp, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sIntro, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sTestMenu, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMemTest, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sFilesystem, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sFileSel, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sTransfer, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMemComplete, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMotorTest, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMotorGo, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMotorCol, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+    CanvasStruct(0, 0, &g_sMotorComplete, &g_sKentec320x240x16_SSD2119, 0, 24,
+                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0)
+};
+
+#define NUM_PANELS              (sizeof(g_psPanels) / sizeof(g_psPanels[0]))
+
 
 
 //*****************************************************************************

@@ -58,11 +58,18 @@ void UI_Init(void);
 void UI_InitWidgetsIntegrationTest(void);
 void UI_GenerateHeader(void);
 //
-void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext);      /*      */
-void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext);       /*      */
-void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext);    /*      */
-void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext);     /*      */
-void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext);  /*      */
+void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext);          /*      */
+void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext);           /*      */
+void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext);        /*      */
+void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext);         /*      */
+void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext);      /*      */
+void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext);         /*      */
+void UI_OnTransferPaint(tWidget *psWidget, tContext *psContext);        /*      */
+void UI_OnMemCompletePaint(tWidget *psWidget, tContext *psContext);     /*      */
+void UI_OnMotorTestPaint(tWidget *psWidget, tContext *psContext);       /*      */
+void UI_OnMotorGoPaint(tWidget *psWidget, tContext *psContext);         /*      */
+void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext);        /*      */
+void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext);   /*      */
 //
 void UI_ReturnHome(tWidget * psWidget);
 
