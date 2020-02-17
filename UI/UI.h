@@ -55,7 +55,7 @@
 // *** Function Definitions
 //
 void UI_Init(void);
-void UI_InitWidgetsIntegrationTest(void);
+void UI_InitWidgetsIntegrationTest(uint32_t sysClock);
 void UI_GenerateHeader(void);
 //
 void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext);          /*      */
@@ -72,6 +72,7 @@ void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext);        /*      
 void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext);   /*      */
 //
 void UI_ReturnHome(tWidget * psWidget);
-
+void UI_OnPrevious(tWidget *psWidget);
+void UI_OnNext(tWidget *psWidget);
 
 #endif /* UI_H_ */

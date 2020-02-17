@@ -49,7 +49,7 @@ char *g_pcPanei32NamesUI[] =
 //*****************************************************************************
 // The panel that is currently being displayed.
 //*****************************************************************************
-uint32_t g_ui32Panel;
+uint32_t g_ui32PanelUI;
 
 //*****************************************************************************
 // 0 - Warm Up Panel
@@ -155,24 +155,24 @@ tCanvasWidget g_psPanelsUI[] =
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0)
 };
 
-#define NUM_PANELS              (sizeof(g_psPanels) / sizeof(g_psPanels[0]))
+#define UI_NUM_PANELS              (sizeof(g_psPanelsUI) / sizeof(g_psPanelsUI[0]))
 
 //*****************************************************************************
 // The buttons and text across the bottom of the screen.
 //*****************************************************************************
-RectangularButton(g_sPrevious, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
+RectangularButton(g_sPreviousUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
                   50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
                   &g_sFontCm20, "-", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-                  OnPrevious);
+                  UI_OnPrevious);
 
-Canvas(g_sTitle, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 50, 190, 220, 50,
+Canvas(g_sTitleUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 50, 190, 220, 50,
        CANVAS_STYLE_TEXT | CANVAS_STYLE_TEXT_OPAQUE, 0, 0, ClrSilver,
        &g_sFontCm20, 0, 0, 0);
 
-RectangularButton(g_sNext, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 270, 190,
+RectangularButton(g_sNextUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 270, 190,
                   50, 50, PB_STYLE_IMG | PB_STYLE_TEXT, ClrBlack, ClrBlack, 0,
                   ClrSilver, &g_sFontCm20, "+", g_pui8Blue50x50,
-                  g_pui8Blue50x50Press, 0, 0, OnNext);
+                  g_pui8Blue50x50Press, 0, 0, UI_OnNext);
 
 //*****************************************************************************
 //
@@ -222,14 +222,14 @@ void UI_InitWidgetsIntegrationTest(uint32_t sysClock)
     TouchScreenCallbackSet(WidgetPointerMessage);
 
     // Add the title block and the previous and next buttons to the widget tree.
-    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sPrevious);
-    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sTitle);
-    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sNext);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sPreviousUI);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sTitleUI);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sNextUI);
 
     // Add the first panel to the widget tree.
-    g_ui32Panel = 0;
+    g_ui32PanelUI = 0;
     WidgetAdd(WIDGET_ROOT, (tWidget *)g_psPanelsUI);
-    CanvasTextSet(&g_sTitle, g_pcPanei32NamesUI[0]);
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[0]);
 
     // Issue the initial paint request to the widgets.
     WidgetPaint(WIDGET_ROOT);
@@ -330,9 +330,7 @@ void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext)
 {
-    //
     // Display the introduction text in the canvas.
-    //
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
@@ -353,7 +351,12 @@ void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Test Menu ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -361,7 +364,12 @@ void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Mem Test ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -369,7 +377,12 @@ void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Filesystem ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -377,7 +390,12 @@ void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ File Select ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -385,7 +403,12 @@ void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnTransferPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Transferring ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -393,7 +416,12 @@ void UI_OnTransferPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMemCompletePaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Mem Test Done ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -401,7 +429,12 @@ void UI_OnMemCompletePaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMotorTestPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Motor Test ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -409,7 +442,12 @@ void UI_OnMotorTestPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMotorGoPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Motor Go ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -417,7 +455,12 @@ void UI_OnMotorGoPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
 
+    GrStringDrawCentered(psContext, "~*~*~ Motor Collision ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
 }
 
 //*****************************************************************************
@@ -425,5 +468,146 @@ void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext)
 {
+    // Display the introduction text in the canvas.
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
+
+    GrStringDrawCentered(psContext, "~*~*~ Motor Test Done ~*~*~", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
+}
+
+//*****************************************************************************
+// Handles presses of the previous panel button.
+//*****************************************************************************
+void UI_OnPrevious(tWidget *psWidget)
+{
+    //
+    // There is nothing to be done if the first panel is already being
+    // displayed.
+    //
+    if(g_ui32PanelUI == 0)
+    {
+        return;
+    }
+
+    //
+    // Remove the current panel.
+    //
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    //
+    // Decrement the panel index.
+    //
+    g_ui32PanelUI--;
+
+    //
+    // Add and draw the new panel.
+    //
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    //
+    // Set the title of this panel.
+    //
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
+
+    //
+    // See if this is the first panel.
+    //
+    if(g_ui32PanelUI == 0)
+    {
+        //
+        // Clear the previous button from the display since the first panel is
+        // being displayed.
+        //
+        PushButtonImageOff(&g_sPreviousUI);
+        PushButtonTextOff(&g_sPreviousUI);
+        PushButtonFillOn(&g_sPreviousUI);
+        WidgetPaint((tWidget *)&g_sPreviousUI);
+    }
+
+    //
+    // See if the previous panel was the last panel.
+    //
+    if(g_ui32PanelUI == (UI_NUM_PANELS - 2))
+    {
+        //
+        // Display the next button.
+        //
+        PushButtonImageOn(&g_sNextUI);
+        PushButtonTextOn(&g_sNextUI);
+        PushButtonFillOff(&g_sNextUI);
+        WidgetPaint((tWidget *)&g_sNextUI);
+    }
+
+}
+
+//*****************************************************************************
+//
+// Handles presses of the next panel button.
+//
+//*****************************************************************************
+void UI_OnNext(tWidget *psWidget)
+{
+    //
+    // There is nothing to be done if the last panel is already being
+    // displayed.
+    //
+    if(g_ui32PanelUI == (UI_NUM_PANELS - 1))
+    {
+        return;
+    }
+
+    //
+    // Remove the current panel.
+    //
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    //
+    // Increment the panel index.
+    //
+    g_ui32PanelUI++;
+
+    //
+    // Add and draw the new panel.
+    //
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    //
+    // Set the title of this panel.
+    //
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
+
+    //
+    // See if the previous panel was the first panel.
+    //
+    if(g_ui32PanelUI == 1)
+    {
+        //
+        // Display the previous button.
+        //
+        PushButtonImageOn(&g_sPreviousUI);
+        PushButtonTextOn(&g_sPreviousUI);
+        PushButtonFillOff(&g_sPreviousUI);
+        WidgetPaint((tWidget *)&g_sPreviousUI);
+    }
+
+    //
+    // See if this is the last panel.
+    //
+    if(g_ui32PanelUI == (UI_NUM_PANELS - 1))
+    {
+        //
+        // Clear the next button from the display since the last panel is being
+        // displayed.
+        //
+        PushButtonImageOff(&g_sNextUI);
+        PushButtonTextOff(&g_sNextUI);
+        PushButtonFillOn(&g_sNextUI);
+        WidgetPaint((tWidget *)&g_sNextUI);
+    }
 
 }
