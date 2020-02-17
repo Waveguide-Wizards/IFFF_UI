@@ -1130,9 +1130,7 @@ main(void)
     //
     while(1)
     {
-        //
         // Process any messages in the widget message queue.
-        //
         WidgetMessageQueueProcess();
     }
 }

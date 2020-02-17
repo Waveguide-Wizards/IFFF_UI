@@ -157,7 +157,22 @@ tCanvasWidget g_psPanelsUI[] =
 
 #define NUM_PANELS              (sizeof(g_psPanels) / sizeof(g_psPanels[0]))
 
+//*****************************************************************************
+// The buttons and text across the bottom of the screen.
+//*****************************************************************************
+RectangularButton(g_sPrevious, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
+                  50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
+                  &g_sFontCm20, "-", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
+                  OnPrevious);
 
+Canvas(g_sTitle, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 50, 190, 220, 50,
+       CANVAS_STYLE_TEXT | CANVAS_STYLE_TEXT_OPAQUE, 0, 0, ClrSilver,
+       &g_sFontCm20, 0, 0, 0);
+
+RectangularButton(g_sNext, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 270, 190,
+                  50, 50, PB_STYLE_IMG | PB_STYLE_TEXT, ClrBlack, ClrBlack, 0,
+                  ClrSilver, &g_sFontCm20, "+", g_pui8Blue50x50,
+                  g_pui8Blue50x50Press, 0, 0, OnNext);
 
 //*****************************************************************************
 //
@@ -190,13 +205,8 @@ void UI_Init(void)
     uDMAControlBaseSet(&psDMAControlTable[0]);
     uDMAEnable();
 
-    // Initialize the touch screen driver and have it route its messages to the
-    // widget tree.
-    TouchScreenInit(ui32SysClock);
-    TouchScreenCallbackSet(WidgetPointerMessage);
-
     // Initialize the widget tree
-    UI_InitWidgetsIntegrationTest();
+    UI_InitWidgetsIntegrationTest(ui32SysClock);
 }
 
 //*****************************************************************************
@@ -204,9 +214,25 @@ void UI_Init(void)
 // Initializes Widgets for Integration Testing
 //
 //*****************************************************************************
-void UI_InitWidgetsIntegrationTest(void)
+void UI_InitWidgetsIntegrationTest(uint32_t sysClock)
 {
+    // Initialize the touch screen driver and have it route its messages to the
+    // widget tree.
+    TouchScreenInit(sysClock);
+    TouchScreenCallbackSet(WidgetPointerMessage);
 
+    // Add the title block and the previous and next buttons to the widget tree.
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sPrevious);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sTitle);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sNext);
+
+    // Add the first panel to the widget tree.
+    g_ui32Panel = 0;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)g_psPanelsUI);
+    CanvasTextSet(&g_sTitle, g_pcPanei32NamesUI[0]);
+
+    // Issue the initial paint request to the widgets.
+    WidgetPaint(WIDGET_ROOT);
 }
 
 //*****************************************************************************
@@ -300,9 +326,7 @@ void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext)
 }
 
 //*****************************************************************************
-//
 // Handles paint requests for the introduction canvas widget.
-//
 //*****************************************************************************
 void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext)
 {
@@ -324,7 +348,82 @@ void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext)
                          GrContextDpyWidthGet(psContext) / 2, 164, 0);
 }
 
+//*****************************************************************************
+// Handles paint requests for the test menu canvas widget.
+//*****************************************************************************
 void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the memory integration test canvas widget.
+//*****************************************************************************
+void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the filesystem navigation canvas widget.
+//*****************************************************************************
+void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the file confirmation canvas widget.
+//*****************************************************************************
+void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the file transfer canvas widget.
+//*****************************************************************************
+void UI_OnTransferPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the memory test completion canvas widget.
+//*****************************************************************************
+void UI_OnMemCompletePaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the motor test canvas widget.
+//*****************************************************************************
+void UI_OnMotorTestPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the motor test underway widget.
+//*****************************************************************************
+void UI_OnMotorGoPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the motor collision widget.
+//*****************************************************************************
+void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext)
+{
+
+}
+
+//*****************************************************************************
+// Handles paint requests for the motor test completion widget.
+//*****************************************************************************
+void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext)
 {
 
 }
