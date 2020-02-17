@@ -4,6 +4,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.target_config.ccxml.Stellaris In-Circuit Debug Interface_0/CORTEX_M4_0" value="${build_artifact:IFFF_UI}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.target_config.ccxml.Stellaris In-Circuit Debug Interface_0/CORTEX_M4_0" value="IFFF_UI"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:IFFF_UI}"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.target_config.ccxml.Stellaris In-Circuit Debug Interface_0/CORTEX_M4_0" value="C:/Users\marka\workspace_v9_2\IFFF_UI\Debug\IFFF_UI.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/IFFF_UI"/>
 </listAttribute>

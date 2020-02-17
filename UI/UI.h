@@ -44,12 +44,13 @@
 
 // *** Defines
 //
-#define UI_WARMUP_TIMEOUT_VAL               3000000
-//
 #define UI_UTMENU_SEL_MEM_X                 60
 #define UI_UTMENU_SEL_MEM_Y                 60
 #define UI_UTMENU_SEL_MEM_W                 200
 #define UI_UTMENU_SEL_MEM_H                 50
+//
+#define UI_TICKS_TO_MS(x)                   (x * 40000 / 3)
+#define UI_WARMUP_DELAY_TIME                40
 
 
 // *** Function Definitions
