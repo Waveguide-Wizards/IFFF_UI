@@ -17,33 +17,25 @@ static tContext sContext;
 static tRectangle sRect;
 extern tCanvasWidget g_psPanelsUI[];
 
-// *** Select Memory Integration Test
-//
-//RectangularButton(g_sMemTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
-//                  50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
-//                  &g_sFontCm20, "[]", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-//                  UI_ReturnHome);
-
 
 //*****************************************************************************
 // The names for each of the panels, which is displayed at the bottom of the
-// screen.
+// screen (The sloppy style is on purpose to properly center the text)
 //*****************************************************************************
 char *g_pcPanei32NamesUI[] =
 {
-    "     Warm Up       ",
-    "     Introduction  ",
-    "     Test Menu     ",
-    "     Memory Test   ",
-    "     File System   ",
-    "     Confirm File  ",
-    "     Transferring  ",
-    "     Test Complete ",
-    "     S/W Update    ",
-    "     Motor Test    ",
-    "     In Progress   ",
-    "     Limit Reached ",
-    "     Test Complete "
+    "   Warm Up   ",
+    "   Introduction   ",
+    "   Test Menu   ",
+    "   Memory Test   ",
+    "   File System   ",
+    "   Confirm File   ",
+    "   Transferring   ",
+    "   Test Complete   ",
+    "   Motor Test   ",
+    "   In Progress   ",
+    "   Limit Reached   ",
+    "   Test Complete   "
 };
 
 //*****************************************************************************
@@ -162,8 +154,8 @@ tCanvasWidget g_psPanelsUI[] =
 //*****************************************************************************
 RectangularButton(g_sPreviousUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 190,
                   50, 50, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
-                  &g_sFontCm20, "-", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-                  UI_OnPrevious);
+                  &g_sFontCm20, "H", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
+                  UI_ReturnHome);
 
 Canvas(g_sTitleUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 50, 190, 220, 50,
        CANVAS_STYLE_TEXT | CANVAS_STYLE_TEXT_OPAQUE, 0, 0, ClrSilver,
@@ -175,9 +167,11 @@ RectangularButton(g_sNextUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 270, 190,
                   g_pui8Blue50x50Press, 0, 0, UI_OnNext);
 
 //*****************************************************************************
-//
+// The buttons and text across the bottom of the screen.
+//*****************************************************************************
+
+//*****************************************************************************
 // Initializes User Interface
-//
 //*****************************************************************************
 void UI_Init(void)
 {
@@ -268,12 +262,8 @@ void UI_GenerateHeader(void)
 void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext)
 {
     uint32_t ui32Idx;
-    tRectangle sRect;
-    uint32_t timeout = 0;
 
-    //
     // Draw a vertical sweep of lines from red to green.
-    //
     for(ui32Idx = 0; ui32Idx <= 8; ui32Idx++)
     {
         GrContextForegroundSet(psContext,
@@ -359,6 +349,20 @@ void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
 
     GrStringDrawCentered(psContext, "~*~*~ Test Menu ~*~*~", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+
+//   // Memory Test Select Button
+//   RectangularButton(g_sMemTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, UI_UTMENU_SEL_MEM_X, UI_UTMENU_SEL_MEM_Y,
+//                     50, UI_UTMENU_SEL_MEM_H, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
+//                     &g_sFontCm20, "-", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
+//                     UI_SelectMemTest);
+//   WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sMemTest);
+//
+//   // Motor Test Select Button
+//   RectangularButton(g_sMotorTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, UI_UTMENU_SEL_MOTOR_X, UI_UTMENU_SEL_MOTOR_Y,
+//                      50, UI_UTMENU_SEL_MOTOR_H, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
+//                      &g_sFontCm20, "+", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
+//                      UI_SelectMemTest);
+//   WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sMotorTest);
 }
 
 //*****************************************************************************
@@ -612,4 +616,67 @@ void UI_OnNext(tWidget *psWidget)
         WidgetPaint((tWidget *)&g_sNextUI);
     }
 
+}
+
+//*****************************************************************************
+// Handles presses of the memory test button
+//*****************************************************************************
+void UI_SelectMemTest(tWidget *psWidget)
+{
+//    // Clear the buttons from the display since the last panel is being shown
+//    PushButtonImageOff(&g_sMemTest);
+//    PushButtonTextOff(&g_sMemTest);
+//    PushButtonFillOn(&g_sMemTest);
+//    WidgetPaint((tWidget *)&g_sMemTest);
+//    //
+//    PushButtonImageOff(&g_sMotorTest);
+//    PushButtonTextOff(&g_sMotorTest);
+//    PushButtonFillOn(&g_sMotorTest);
+//    WidgetPaint((tWidget *)&g_sMotorTest);
+
+    WidgetRemove((tWidget *)&g_sMemTest);
+
+    // Remove the current panel.
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Add and draw the new panel.
+    g_ui32PanelUI = 3;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Set the title of this panel.
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
+}
+
+//*****************************************************************************
+// Handles presses of the motor test button
+//*****************************************************************************
+void UI_SelectMotorTest(tWidget *psWidget)
+{
+
+}
+
+void UI_ReturnHome(tWidget * psWidget)
+{
+    // There is nothing to be done if the first panel is already being
+    // displayed.
+    if(g_ui32PanelUI == 0)
+    {
+        return;
+    }
+
+    // Remove the current panel.
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Decrement the panel index.
+    g_ui32PanelUI = 0;
+
+    // Set the title of this panel.
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
+
+    // Add and draw the new panel.
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 }

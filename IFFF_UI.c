@@ -24,30 +24,8 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "inc/hw_memmap.h"
-#include "inc/hw_nvic.h"
-#include "inc/hw_sysctl.h"
-#include "inc/hw_types.h"
-#include "driverlib/fpu.h"
-#include "driverlib/gpio.h"
-#include "driverlib/flash.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/systick.h"
-#include "driverlib/uart.h"
-#include "driverlib/udma.h"
-#include "driverlib/rom.h"
-#include "grlib/grlib.h"
-#include "grlib/widget.h"
-#include "grlib/canvas.h"
-#include "grlib/checkbox.h"
-#include "grlib/container.h"
-#include "grlib/pushbutton.h"
-#include "grlib/radiobutton.h"
-#include "grlib/slider.h"
 #include "utils/ustdlib.h"
-#include "drivers/Kentec320x240x16_ssd2119_spi.h"
-#include "drivers/touch.h"
-#include "images.h"
+#include "UI.h"
 
 //*****************************************************************************
 //
@@ -718,7 +696,6 @@ void
 OnPrimitivePaint(tWidget *psWidget, tContext *psContext)
 {
     uint32_t ui32Idx;
-    tRectangle sRect;
 
     //
     // Draw a vertical sweep of lines from red to green.

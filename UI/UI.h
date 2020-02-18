@@ -49,6 +49,11 @@
 #define UI_UTMENU_SEL_MEM_W                 200
 #define UI_UTMENU_SEL_MEM_H                 50
 //
+#define UI_UTMENU_SEL_MOTOR_X               60
+#define UI_UTMENU_SEL_MOTOR_Y               120
+#define UI_UTMENU_SEL_MOTOR_W               200
+#define UI_UTMENU_SEL_MOTOR_H               50
+//
 #define UI_TICKS_TO_MS(x)                   (x * 40000 / 3)
 #define UI_WARMUP_DELAY_TIME                40
 
@@ -75,5 +80,7 @@ void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext);   /*      
 void UI_ReturnHome(tWidget * psWidget);
 void UI_OnPrevious(tWidget *psWidget);
 void UI_OnNext(tWidget *psWidget);
+void UI_SelectMemTest(tWidget *psWidget);
+void UI_SelectMotorTest(tWidget *psWidget);
 
 #endif /* UI_H_ */
