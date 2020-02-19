@@ -64,7 +64,7 @@ void UI_Init(void);
 void UI_InitWidgetsIntegrationTest(uint32_t sysClock);
 void UI_GenerateHeader(void);
 //
-void UI_OnWarmUpPaint(tWidget *psWidget, tContext *psContext);          /*      */
+void UI_OnWarmUpPaint(tContext *psContext);                             /*      */
 void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext);           /*      */
 void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext);        /*      */
 void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext);         /*      */
