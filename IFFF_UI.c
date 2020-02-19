@@ -27,6 +27,8 @@
 #include "utils/ustdlib.h"
 #include "UI.h"
 
+
+//#define IFFF_UI_RUN_DEMO
 //*****************************************************************************
 //
 //! \addtogroup example_list
@@ -644,7 +646,6 @@ OnNext(tWidget *psWidget)
         PushButtonFillOn(&g_sNext);
         WidgetPaint((tWidget *)&g_sNext);
     }
-
 }
 
 //*****************************************************************************
@@ -1009,100 +1010,102 @@ OnRadioChange(tWidget *psWidget, uint32_t bSelected)
 int
 main(void)
 {
-//    tContext sContext;
-//    tRectangle sRect;
-//    uint32_t ui32SysClock;
-//
-//    //
-//    // The FPU should be enabled because some compilers will use floating-
-//    // point registers, even for non-floating-point code.  If the FPU is not
-//    // enabled this will cause a fault.  This also ensures that floating-
-//    // point operations could be added to this application and would work
-//    // correctly and use the hardware floating-point unit.  Finally, lazy
-//    // stacking is enabled for interrupt handlers.  This allows floating-
-//    // point instructions to be used within interrupt handlers, but at the
-//    // expense of extra stack usage.
-//    //
-//    FPUEnable();
-//    FPULazyStackingEnable();
-//
-//    //
-//    // Set the clock to 40Mhz derived from the PLL and the external oscillator
-//    //
-//    ROM_SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
-//                       SYSCTL_OSC_MAIN);
-//
-//    ui32SysClock = ROM_SysCtlClockGet();
-//
-//    //
-//    // Initialize the display driver.
-//    //
-//    Kentec320x240x16_SSD2119Init(ui32SysClock);   //screen goes white
-//
-//    //
-//    // Initialize the graphics context.
-//    //
-//    GrContextInit(&sContext, &g_sKentec320x240x16_SSD2119);
-//
-//    //
-//    // Fill the top 24 rows of the screen with blue to create the banner.
-//    //
-//    sRect.i16XMin = 0;
-//    sRect.i16YMin = 0;
-//    sRect.i16XMax = GrContextDpyWidthGet(&sContext) - 1;
-//    sRect.i16YMax = 23;
-//    GrContextForegroundSet(&sContext, ClrDarkBlue);
-//    GrRectFill(&sContext, &sRect);
-//
-//    //
-//    // Put a white box around the banner.
-//    //
-//    GrContextForegroundSet(&sContext, ClrWhite);
-//    GrRectDraw(&sContext, &sRect);
-//
-//    //
-//    // Put the application name in the middle of the banner.
-//    //
-//    GrContextFontSet(&sContext, &g_sFontCm20);
-//    GrStringDrawCentered(&sContext, "IFFF", -1,
-//                         GrContextDpyWidthGet(&sContext) / 2, 8, 0);
-//
-//    //
-//    // Configure and enable uDMA
-//    //
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_UDMA);
-//    SysCtlDelay(10);
-//    uDMAControlBaseSet(&psDMAControlTable[0]);
-//    uDMAEnable();
-//
-//    //
-//    // Initialize the touch screen driver and have it route its messages to the
-//    // widget tree.
-//    //
-//    TouchScreenInit(ui32SysClock);
-//    TouchScreenCallbackSet(WidgetPointerMessage);
-//
-//    //
-//    // Add the title block and the previous and next buttons to the widget
-//    // tree.
-//    //
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sPrevious);
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sTitle);
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sNext);
-//
-//    //
-//    // Add the first panel to the widget tree.
-//    //
-//    g_ui32Panel = 0;
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)g_psPanels);
-//    CanvasTextSet(&g_sTitle, g_pcPanei32Names[0]);
-//
-//    //
-//    // Issue the initial paint request to the widgets.
-//    //
-//    WidgetPaint(WIDGET_ROOT);
+#ifdef IFFF_UI_RUN_DEMO
+    tContext sContext;
+    tRectangle sRect;
+    uint32_t ui32SysClock;
 
+    //
+    // The FPU should be enabled because some compilers will use floating-
+    // point registers, even for non-floating-point code.  If the FPU is not
+    // enabled this will cause a fault.  This also ensures that floating-
+    // point operations could be added to this application and would work
+    // correctly and use the hardware floating-point unit.  Finally, lazy
+    // stacking is enabled for interrupt handlers.  This allows floating-
+    // point instructions to be used within interrupt handlers, but at the
+    // expense of extra stack usage.
+    //
+    FPUEnable();
+    FPULazyStackingEnable();
+
+    //
+    // Set the clock to 40Mhz derived from the PLL and the external oscillator
+    //
+    ROM_SysCtlClockSet(SYSCTL_SYSDIV_5 | SYSCTL_USE_PLL | SYSCTL_XTAL_16MHZ |
+                       SYSCTL_OSC_MAIN);
+
+    ui32SysClock = ROM_SysCtlClockGet();
+
+    //
+    // Initialize the display driver.
+    //
+    Kentec320x240x16_SSD2119Init(ui32SysClock);   //screen goes white
+
+    //
+    // Initialize the graphics context.
+    //
+    GrContextInit(&sContext, &g_sKentec320x240x16_SSD2119);
+
+    //
+    // Fill the top 24 rows of the screen with blue to create the banner.
+    //
+    sRect.i16XMin = 0;
+    sRect.i16YMin = 0;
+    sRect.i16XMax = GrContextDpyWidthGet(&sContext) - 1;
+    sRect.i16YMax = 23;
+    GrContextForegroundSet(&sContext, ClrDarkBlue);
+    GrRectFill(&sContext, &sRect);
+
+    //
+    // Put a white box around the banner.
+    //
+    GrContextForegroundSet(&sContext, ClrWhite);
+    GrRectDraw(&sContext, &sRect);
+
+    //
+    // Put the application name in the middle of the banner.
+    //
+    GrContextFontSet(&sContext, &g_sFontCm20);
+    GrStringDrawCentered(&sContext, "IFFF", -1,
+                         GrContextDpyWidthGet(&sContext) / 2, 8, 0);
+
+    //
+    // Configure and enable uDMA
+    //
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_UDMA);
+    SysCtlDelay(10);
+    uDMAControlBaseSet(&psDMAControlTable[0]);
+    uDMAEnable();
+
+    //
+    // Initialize the touch screen driver and have it route its messages to the
+    // widget tree.
+    //
+    TouchScreenInit(ui32SysClock);
+    TouchScreenCallbackSet(WidgetPointerMessage);
+
+    //
+    // Add the title block and the previous and next buttons to the widget
+    // tree.
+    //
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sPrevious);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sTitle);
+    WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sNext);
+
+    //
+    // Add the first panel to the widget tree.
+    //
+    g_ui32Panel = 0;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)g_psPanels);
+    CanvasTextSet(&g_sTitle, g_pcPanei32Names[0]);
+
+    //
+    // Issue the initial paint request to the widgets.
+    //
+    WidgetPaint(WIDGET_ROOT);
+#else
     UI_Init();
+#endif /* IFFF_UI_RUN_DEMO */
 
     //
     // Loop forever handling widget messages.

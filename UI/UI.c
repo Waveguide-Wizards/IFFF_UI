@@ -58,8 +58,34 @@ Canvas(g_sIntro, g_psPanelsUI + 1, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 // 2 - Integration Test Menu Panel
 //*****************************************************************************
-Canvas(g_sTestMenu, g_psPanelsUI + 2, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
-       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTestMenuPaint);
+//Canvas(g_sTestMenu, g_psPanelsUI + 2, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+//       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTestMenuPaint);
+tCanvasWidget pushButtonsInd_SelectIT[] =
+{
+    CanvasStruct(g_psPanelsUI + 2, pushButtonsInd_SelectIT + 1, 0,
+                 &g_sKentec320x240x16_SSD2119, 280, 70, 20, 20,
+                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
+    CanvasStruct(g_psPanelsUI + 2, 0, 0,
+                 &g_sKentec320x240x16_SSD2119, 280, 130, 20, 20,
+                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
+};
+tPushButtonWidget pushButtons_SelectIT[] =
+{
+    RectangularButtonStruct(g_psPanelsUI + 2, pushButtons_SelectIT + 1, 0,
+                            &g_sKentec320x240x16_SSD2119, 60, 60, 200, 50,
+                            PB_STYLE_FILL | PB_STYLE_OUTLINE | PB_STYLE_TEXT,
+                            ClrDeepSkyBlue, ClrLavender, ClrNavajoWhite, ClrBlack,
+                            &g_sFontCm20, "Memory Test", 0, 0, 0, 0, UI_SelectMemTest),
+    RectangularButtonStruct(g_psPanelsUI + 2, 0, 0,
+                            &g_sKentec320x240x16_SSD2119, 60, 120, 200, 50,
+                            PB_STYLE_FILL | PB_STYLE_OUTLINE | PB_STYLE_TEXT,
+                            ClrDeepSkyBlue, ClrLavender, ClrNavajoWhite, ClrBlack,
+                            &g_sFontCm20, "Motor Test", 0, 0, 0, 0, UI_SelectMotorTest),
+
+};
+#define NUM_PUSH_BUTTONS        (sizeof(pushButtons_SelectIT) /   \
+                                 sizeof(pushButtons_SelectIT[0]))
+uint32_t g_ui32ButtonStateUI = 0;
 
 //*****************************************************************************
 // 3 - Memory Test Panel
@@ -125,7 +151,7 @@ tCanvasWidget g_psPanelsUI[] =
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sIntro, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
-    CanvasStruct(0, 0, &g_sTestMenu, &g_sKentec320x240x16_SSD2119, 0, 24,
+    CanvasStruct(0, 0, pushButtons_SelectIT, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sMemTest, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
@@ -166,9 +192,6 @@ RectangularButton(g_sNextUI, 0, 0, 0, &g_sKentec320x240x16_SSD2119, 270, 190,
                   ClrSilver, &g_sFontCm20, "+", g_pui8Blue50x50,
                   g_pui8Blue50x50Press, 0, 0, UI_OnNext);
 
-//*****************************************************************************
-// The buttons and text across the bottom of the screen.
-//*****************************************************************************
 
 //*****************************************************************************
 // Initializes User Interface
@@ -346,23 +369,21 @@ void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
     // Display the introduction text in the canvas.
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
-
     GrStringDrawCentered(psContext, "~*~*~ Test Menu ~*~*~", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
 
-//   // Memory Test Select Button
-//   RectangularButton(g_sMemTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, UI_UTMENU_SEL_MEM_X, UI_UTMENU_SEL_MEM_Y,
-//                     50, UI_UTMENU_SEL_MEM_H, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
-//                     &g_sFontCm20, "-", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-//                     UI_SelectMemTest);
-//   WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sMemTest);
-//
-//   // Motor Test Select Button
-//   RectangularButton(g_sMotorTest, 0, 0, 0, &g_sKentec320x240x16_SSD2119, UI_UTMENU_SEL_MOTOR_X, UI_UTMENU_SEL_MOTOR_Y,
-//                      50, UI_UTMENU_SEL_MOTOR_H, PB_STYLE_FILL, ClrBlack, ClrBlack, 0, ClrSilver,
-//                      &g_sFontCm20, "+", g_pui8Blue50x50, g_pui8Blue50x50Press, 0, 0,
-//                      UI_SelectMemTest);
-//   WidgetAdd(WIDGET_ROOT, (tWidget *)&g_sMotorTest);
+    // Display memory test and motor test options.
+//    PushButtonImageOn(&pushButtons_SelectIT[0]);
+//    PushButtonTextOn(&pushButtons_SelectIT[0]);
+//    PushButtonFillOn(&pushButtons_SelectIT[0]);
+//    WidgetPaint((tWidget *)&pushButtons_SelectIT[0]);
+
+//    WidgetAdd(WIDGET_ROOT, (tWidget *)&pushButtons_SelectIT[0]);
+//    PushButtonImageOn(&pushButtons_SelectIT[1]);
+//    PushButtonTextOn(&pushButtons_SelectIT[1]);
+//    PushButtonFillOn(&pushButtons_SelectIT[1]);
+//    WidgetPaint((tWidget *)&pushButtons_SelectIT[1]);
+
 }
 
 //*****************************************************************************
@@ -402,6 +423,13 @@ void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext)
 
     GrStringDrawCentered(psContext, "~*~*~ File Select ~*~*~", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+
+    Slider(confirmFileSlider ,g_psPanelsUI + 7, 0, 0, &g_sKentec320x240x16_SSD2119,
+           GrContextDpyWidthGet(psContext) / 2, 120, 220, 80, 0, 100, 0,
+           (SL_STYLE_FILL | SL_STYLE_BACKG_FILL | SL_STYLE_OUTLINE |
+           SL_STYLE_TEXT | SL_STYLE_BACKG_TEXT),
+           ClrGreen, ClrLightSlateGray, ClrGold, ClrGold, ClrIndianRed,
+           &g_sFontCm20, "Slide to Confirm File", 0, 0, UI_OnSliderChange);
 }
 
 //*****************************************************************************
@@ -634,19 +662,35 @@ void UI_SelectMemTest(tWidget *psWidget)
 //    PushButtonFillOn(&g_sMotorTest);
 //    WidgetPaint((tWidget *)&g_sMotorTest);
 
-    WidgetRemove((tWidget *)&g_sMemTest);
+//    WidgetRemove((tWidget *)&pushButtons_SelectIT[0]);
+    if(g_ui32PanelUI != 2)
+    {
+        return;
+    }
 
-    // Remove the current panel.
-    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    g_ui32ButtonStateUI ^= 1;
 
-    // Add and draw the new panel.
-    g_ui32PanelUI = 3;
-    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
-    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    CanvasImageSet(pushButtonsInd_SelectIT,
+                   (g_ui32ButtonStateUI & 1) ? g_pui8LightOn : g_pui8LightOff);
+    WidgetPaint((tWidget *)(pushButtonsInd_SelectIT));
 
-    // Set the title of this panel.
-    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
-    WidgetPaint((tWidget *)&g_sTitleUI);
+    // Clear the buttons from the display since the last panel is being shown
+//    PushButtonImageOff(&pushButtons_SelectIT[0]);
+//    PushButtonTextOff(&pushButtons_SelectIT[0]);
+//    PushButtonFillOff(&pushButtons_SelectIT[0]);
+//    WidgetPaint((tWidget *)&pushButtons_SelectIT[0]);
+
+//    // Remove the current panel.
+//    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+//
+//    // Add and draw the new panel.
+//    g_ui32PanelUI = 3;
+//    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+//    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+//
+//    // Set the title of this panel.
+//    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+//    WidgetPaint((tWidget *)&g_sTitleUI);
 }
 
 //*****************************************************************************
@@ -654,7 +698,16 @@ void UI_SelectMemTest(tWidget *psWidget)
 //*****************************************************************************
 void UI_SelectMotorTest(tWidget *psWidget)
 {
+    if(g_ui32PanelUI != 2)
+    {
+        return;
+    }
 
+    g_ui32ButtonStateUI ^= 0x1 << 1;
+
+    CanvasImageSet(pushButtonsInd_SelectIT + 1,
+                   (g_ui32ButtonStateUI & 0x1 << 1) ? g_pui8LightOn : g_pui8LightOff);
+    WidgetPaint((tWidget *)(pushButtonsInd_SelectIT + 1));
 }
 
 void UI_ReturnHome(tWidget * psWidget)
@@ -679,4 +732,43 @@ void UI_ReturnHome(tWidget * psWidget)
     // Add and draw the new panel.
     WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
     WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+}
+
+//*****************************************************************************
+// Handles notifications from the slider controls
+//*****************************************************************************
+void UI_OnSliderChange(tWidget *psWidget, int32_t i32Value)
+{
+    static char pcCanvasText[5];
+    static char pcSliderText[5];
+
+//    //
+//    // Is this the widget whose value we mirror in the canvas widget and the
+//    // locked slider?
+//    //
+//    if(psWidget == (tWidget *)&g_psSliders[SLIDER_CANVAS_VAL_INDEX])
+//    {
+//        //
+//        // Yes - update the canvas to show the slider value.
+//        //
+//        usprintf(pcCanvasText, "%3d%%", i32Value);
+//        CanvasTextSet(&g_sSliderValueCanvas, pcCanvasText);
+//        WidgetPaint((tWidget *)&g_sSliderValueCanvas);
+//
+//        //
+//        // Also update the value of the locked slider to reflect this one.
+//        //
+//        SliderValueSet(&g_psSliders[SLIDER_LOCKED_INDEX], i32Value);
+//        WidgetPaint((tWidget *)&g_psSliders[SLIDER_LOCKED_INDEX]);
+//    }
+//
+//    if(psWidget == (tWidget *)&g_psSliders[SLIDER_TEXT_VAL_INDEX])
+//    {
+//        //
+//        // Yes - update the canvas to show the slider value.
+//        //
+//        usprintf(pcSliderText, "%3d%%", i32Value);
+//        SliderTextSet(&g_psSliders[SLIDER_TEXT_VAL_INDEX], pcSliderText);
+//        WidgetPaint((tWidget *)&g_psSliders[SLIDER_TEXT_VAL_INDEX]);
+//    }
 }
