@@ -96,21 +96,8 @@ Canvas(g_sMemTest, g_psPanelsUI + 3, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 // 4 - File System Panel
 //*****************************************************************************
-tCanvasWidget pushButtonsLabels_MemSelectFile[] =
-{
-    CanvasStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile + 1, 0,
-                 &g_sKentec320x240x16_SSD2119, 120, 35, 110, 24,
-                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 1",
-                 0, 0),
-    CanvasStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile + 2, 0,
-                 &g_sKentec320x240x16_SSD2119, 120, 90, 110, 24,
-                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 2",
-                 0, 0),
-    CanvasStruct(g_psPanelsUI + 4, 0, 0,
-                 &g_sKentec320x240x16_SSD2119, 120, 145, 110, 24,
-                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 3",
-                 0, 0),
-};
+Canvas(g_sFileSystemNames, g_psPanelsUI + 4, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
+       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnFilesystemPaint);
 tPushButtonWidget pushButtons_MemSelectFile[] =
 {
      RectangularButtonStruct(g_psPanelsUI + 4, pushButtons_MemSelectFile + 1, 0,
@@ -125,7 +112,7 @@ tPushButtonWidget pushButtons_MemSelectFile[] =
                               PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
                              &g_sFontCm22, "2", g_pui8Blue50x50,
                              g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
-     RectangularButtonStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile, 0,
+     RectangularButtonStruct(g_psPanelsUI + 4, &g_sFileSystemNames, 0,
                              &g_sKentec320x240x16_SSD2119, 60, 140, 50, 50,
                              (PB_STYLE_IMG | PB_STYLE_TEXT |
                               PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
@@ -139,6 +126,14 @@ static uint8_t fileIndex = 0;
 //*****************************************************************************
 Canvas(g_sFileSel, g_psPanelsUI + 5, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
        320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnFileSelPaint);
+Slider(slider_ConfirmFile ,g_psPanelsUI + 5, &g_sFileSel, 0,
+             &g_sKentec320x240x16_SSD2119, 50, 120, 220, 30, 0, 100, 0,
+             (SL_STYLE_FILL | SL_STYLE_BACKG_FILL | SL_STYLE_TEXT |
+              SL_STYLE_BACKG_TEXT | SL_STYLE_TEXT_OPAQUE |
+              SL_STYLE_BACKG_TEXT_OPAQUE),
+              ClrGreen, ClrGhostWhite, ClrYellowGreen, ClrYellow, ClrBlack,
+             &g_sFontCm18, "Swipe Right to Confirm", 0, 0,
+             UI_SliderMemConfrimFile);
 
 //*****************************************************************************
 // 6 - Memory Transfer In Progress Panel
@@ -192,7 +187,7 @@ tCanvasWidget g_psPanelsUI[] =
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, pushButtons_MemSelectFile, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
-    CanvasStruct(0, 0, &g_sFileSel, &g_sKentec320x240x16_SSD2119, 0, 24,
+    CanvasStruct(0, 0, &slider_ConfirmFile, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sTransfer, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
@@ -427,12 +422,16 @@ void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
 }
 
 //*****************************************************************************
-// Handles paint requests for the filesystem navigation canvas widget.
+//  Paints file names next to filesystem navigation button widgets.
 //*****************************************************************************
 void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext)
 {
-    // This has been replaced by button functionality
-    // See UI_MemSelectFile for more information
+    GrContextFontSet(psContext, &g_sFontCm18);
+    GrContextForegroundSet(psContext, ClrSilver);
+
+    GrStringDrawCentered(psContext, UI_Filenames[0], -1, 140, 50, 0);
+    GrStringDrawCentered(psContext, UI_Filenames[1], -1, 140, 105, 0);
+    GrStringDrawCentered(psContext, UI_Filenames[2], -1, 140, 160, 0);
 }
 
 //*****************************************************************************
@@ -648,22 +647,6 @@ void UI_OnNext(tWidget *psWidget)
         PushButtonFillOff(&g_sPreviousUI);
         WidgetPaint((tWidget *)&g_sPreviousUI);
     }
-
-    //
-    // See if this is the last panel.
-    //
-    if(g_ui32PanelUI == (UI_NUM_PANELS - 1))
-    {
-        //
-        // Clear the next button from the display since the last panel is being
-        // displayed.
-        //
-        PushButtonImageOff(&g_sNextUI);
-        PushButtonTextOff(&g_sNextUI);
-        PushButtonFillOn(&g_sNextUI);
-        WidgetPaint((tWidget *)&g_sNextUI);
-    }
-
 }
 
 //*****************************************************************************
@@ -754,6 +737,31 @@ void UI_MemSelectFile(tWidget *psWidget)
     CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
     WidgetPaint((tWidget *)&g_sTitleUI);
 
+}
+
+void UI_SliderMemConfrimFile(tWidget * psWidget, int32_t i32Value)
+{
+    if(g_ui32PanelUI != 5)
+    {
+        return;
+    }
+
+    if(i32Value >= 99)
+    {
+        // reset to 0
+        SliderValueSet(&slider_ConfirmFile, 0);
+
+        // Remove the current panel.
+        WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+        // Add and draw the new panel.
+        g_ui32PanelUI = 6;
+        WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+        WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+        // Set the title of this panel.
+        CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+        WidgetPaint((tWidget *)&g_sTitleUI);    }
 }
 
 void UI_ReturnHome(tWidget * psWidget)

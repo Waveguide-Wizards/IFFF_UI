@@ -85,6 +85,7 @@ void UI_SelectMemTest(tWidget *psWidget);
 void UI_SelectMotorTest(tWidget *psWidget);
 //
 void UI_MemSelectFile(tWidget *psWidget);
+void UI_SliderMemConfrimFile(tWidget * psWidget, int32_t i32Value);
 //
 void UI_OnSliderChange(tWidget *psWidget, int32_t i32Value);
 
