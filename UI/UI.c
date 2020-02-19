@@ -60,15 +60,15 @@ Canvas(g_sIntro, g_psPanelsUI + 1, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 //Canvas(g_sTestMenu, g_psPanelsUI + 2, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTestMenuPaint);
-tCanvasWidget pushButtonsInd_SelectIT[] =
-{
-    CanvasStruct(g_psPanelsUI + 2, pushButtonsInd_SelectIT + 1, 0,
-                 &g_sKentec320x240x16_SSD2119, 280, 70, 20, 20,
-                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
-    CanvasStruct(g_psPanelsUI + 2, 0, 0,
-                 &g_sKentec320x240x16_SSD2119, 280, 130, 20, 20,
-                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
-};
+//tCanvasWidget pushButtonsInd_SelectIT[] =
+//{
+//    CanvasStruct(g_psPanelsUI + 2, pushButtonsInd_SelectIT + 1, 0,
+//                 &g_sKentec320x240x16_SSD2119, 280, 70, 20, 20,
+//                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
+//    CanvasStruct(g_psPanelsUI + 2, 0, 0,
+//                 &g_sKentec320x240x16_SSD2119, 280, 130, 20, 20,
+//                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
+//};
 tPushButtonWidget pushButtons_SelectIT[] =
 {
     RectangularButtonStruct(g_psPanelsUI + 2, pushButtons_SelectIT + 1, 0,
@@ -651,46 +651,22 @@ void UI_OnNext(tWidget *psWidget)
 //*****************************************************************************
 void UI_SelectMemTest(tWidget *psWidget)
 {
-//    // Clear the buttons from the display since the last panel is being shown
-//    PushButtonImageOff(&g_sMemTest);
-//    PushButtonTextOff(&g_sMemTest);
-//    PushButtonFillOn(&g_sMemTest);
-//    WidgetPaint((tWidget *)&g_sMemTest);
-//    //
-//    PushButtonImageOff(&g_sMotorTest);
-//    PushButtonTextOff(&g_sMotorTest);
-//    PushButtonFillOn(&g_sMotorTest);
-//    WidgetPaint((tWidget *)&g_sMotorTest);
-
-//    WidgetRemove((tWidget *)&pushButtons_SelectIT[0]);
     if(g_ui32PanelUI != 2)
     {
         return;
     }
 
-    g_ui32ButtonStateUI ^= 1;
+    // Remove the current panel.
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
-    CanvasImageSet(pushButtonsInd_SelectIT,
-                   (g_ui32ButtonStateUI & 1) ? g_pui8LightOn : g_pui8LightOff);
-    WidgetPaint((tWidget *)(pushButtonsInd_SelectIT));
+    // Add and draw the new panel.
+    g_ui32PanelUI = 3;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
-    // Clear the buttons from the display since the last panel is being shown
-//    PushButtonImageOff(&pushButtons_SelectIT[0]);
-//    PushButtonTextOff(&pushButtons_SelectIT[0]);
-//    PushButtonFillOff(&pushButtons_SelectIT[0]);
-//    WidgetPaint((tWidget *)&pushButtons_SelectIT[0]);
-
-//    // Remove the current panel.
-//    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
-//
-//    // Add and draw the new panel.
-//    g_ui32PanelUI = 3;
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
-//    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
-//
-//    // Set the title of this panel.
-//    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
-//    WidgetPaint((tWidget *)&g_sTitleUI);
+    // Set the title of this panel.
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
 }
 
 //*****************************************************************************
@@ -703,11 +679,17 @@ void UI_SelectMotorTest(tWidget *psWidget)
         return;
     }
 
-    g_ui32ButtonStateUI ^= 0x1 << 1;
+    // Remove the current panel.
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
-    CanvasImageSet(pushButtonsInd_SelectIT + 1,
-                   (g_ui32ButtonStateUI & 0x1 << 1) ? g_pui8LightOn : g_pui8LightOff);
-    WidgetPaint((tWidget *)(pushButtonsInd_SelectIT + 1));
+    // Add and draw the new panel.
+    g_ui32PanelUI = 8;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Set the title of this panel.
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
 }
 
 void UI_ReturnHome(tWidget * psWidget)
