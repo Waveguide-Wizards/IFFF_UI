@@ -29,6 +29,8 @@ const char * UI_Filenames[] =
 };
 #define UI_NUM_FILES (sizeof(UI_Filenames) / sizeof(UI_Filenames[0]))
 
+const uint32_t bytesTx = 420;
+
 //*****************************************************************************
 // The names for each of the panels, which is displayed at the bottom of the
 // screen (The sloppy style is on purpose to properly center the text)
@@ -198,7 +200,7 @@ tCanvasWidget g_psPanelsUI[] =
     CanvasStruct(0, 0, &g_sMotorGo, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sMotorCol, &g_sKentec320x240x16_SSD2119, 0, 24,
-                 320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
+                 320, 166, CANVAS_STYLE_FILL, ClrDarkRed, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sMotorComplete, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0)
 };
@@ -461,7 +463,7 @@ void UI_OnTransferPaint(tWidget *psWidget, tContext *psContext)
     GrContextForegroundSet(psContext, ClrSilver);
 
     GrStringDrawCentered(psContext, "~*~*~ Transferring ~*~*~", -1,
-                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
+                         GrContextDpyWidthGet(psContext) / 2, 100, 0);
 }
 
 //*****************************************************************************
@@ -473,8 +475,14 @@ void UI_OnMemCompletePaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Mem Test Done ~*~*~", -1,
+    GrStringDrawCentered(psContext, "File Transfer Complete!", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+
+    char transferData[40];
+    sprintf(transferData, "Bytes Transferred: %u", bytesTx);
+
+    GrStringDrawCentered(psContext, transferData, -1,
+                         GrContextDpyWidthGet(psContext) / 2, 74, 0);
 }
 
 //*****************************************************************************
@@ -486,8 +494,18 @@ void UI_OnMotorTestPaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Motor Test ~*~*~", -1,
+    GrStringDrawCentered(psContext, "Motor Test", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    GrStringDrawCentered(psContext, "This is an integration test of", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 74, 0);
+    GrStringDrawCentered(psContext, "the PWM motor control in the", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 92, 0);
+    GrStringDrawCentered(psContext, "context of calibration while", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 110, 0);
+    GrStringDrawCentered(psContext, "integrating the UI for control", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 128, 0);
+    GrStringDrawCentered(psContext, "Continue to begin test", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 164, 0);
 }
 
 //*****************************************************************************
@@ -499,8 +517,8 @@ void UI_OnMotorGoPaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Motor Go ~*~*~", -1,
-                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    GrStringDrawCentered(psContext, "Test in Progress", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 100, 0);
 }
 
 //*****************************************************************************
@@ -512,8 +530,8 @@ void UI_OnMotorColPaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Motor Collision ~*~*~", -1,
-                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    GrStringDrawCentered(psContext, "X Motor Collision with Bumper!", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 100, 0);
 }
 
 //*****************************************************************************
@@ -525,8 +543,14 @@ void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Motor Test Done ~*~*~", -1,
+    GrStringDrawCentered(psContext, "Motor Test Complete", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    GrStringDrawCentered(psContext, "X Position: 10", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 68, 0);
+    GrStringDrawCentered(psContext, "Y Position: 100", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 86, 0);
+    GrStringDrawCentered(psContext, "Z Position: 20", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 104, 0);
 }
 
 //*****************************************************************************
