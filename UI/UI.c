@@ -18,6 +18,17 @@ static tRectangle sRect;
 extern tCanvasWidget g_psPanelsUI[];
 
 
+//******************************************************************************
+//  Temporary File Names
+//******************************************************************************
+const char * UI_Filenames[] =
+{
+     " File 1",
+     " File 2",
+     " File 3"
+};
+#define UI_NUM_FILES (sizeof(UI_Filenames) / sizeof(UI_Filenames[0]))
+
 //*****************************************************************************
 // The names for each of the panels, which is displayed at the bottom of the
 // screen (The sloppy style is on purpose to properly center the text)
@@ -85,6 +96,21 @@ Canvas(g_sMemTest, g_psPanelsUI + 3, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 // 4 - File System Panel
 //*****************************************************************************
+tCanvasWidget pushButtonsLabels_MemSelectFile[] =
+{
+    CanvasStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile + 1, 0,
+                 &g_sKentec320x240x16_SSD2119, 120, 35, 110, 24,
+                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 1",
+                 0, 0),
+    CanvasStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile + 2, 0,
+                 &g_sKentec320x240x16_SSD2119, 120, 90, 110, 24,
+                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 2",
+                 0, 0),
+    CanvasStruct(g_psPanelsUI + 4, 0, 0,
+                 &g_sKentec320x240x16_SSD2119, 120, 145, 110, 24,
+                 CANVAS_STYLE_TEXT, 0, 0, ClrSilver, &g_sFontCm20, "File 3",
+                 0, 0),
+};
 tPushButtonWidget pushButtons_MemSelectFile[] =
 {
      RectangularButtonStruct(g_psPanelsUI + 4, pushButtons_MemSelectFile + 1, 0,
@@ -99,13 +125,15 @@ tPushButtonWidget pushButtons_MemSelectFile[] =
                               PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
                              &g_sFontCm22, "2", g_pui8Blue50x50,
                              g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
-     RectangularButtonStruct(g_psPanelsUI + 4, 0, 0,
+     RectangularButtonStruct(g_psPanelsUI + 4, pushButtonsLabels_MemSelectFile, 0,
                              &g_sKentec320x240x16_SSD2119, 60, 140, 50, 50,
                              (PB_STYLE_IMG | PB_STYLE_TEXT |
                               PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
                              &g_sFontCm22, "3", g_pui8Blue50x50,
                              g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
 };
+static uint8_t fileIndex = 0;
+
 //*****************************************************************************
 // 5 - Confirm File Selection Panel
 //*****************************************************************************
@@ -403,12 +431,8 @@ void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnFilesystemPaint(tWidget *psWidget, tContext *psContext)
 {
-    // Display the introduction text in the canvas.
-    GrContextFontSet(psContext, &g_sFontCm18);
-    GrContextForegroundSet(psContext, ClrSilver);
-
-    GrStringDrawCentered(psContext, "~*~*~ Filesystem ~*~*~", -1,
-                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    // This has been replaced by button functionality
+    // See UI_MemSelectFile for more information
 }
 
 //*****************************************************************************
@@ -420,15 +444,12 @@ void UI_OnFileSelPaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ File Select ~*~*~", -1,
+    GrStringDrawCentered(psContext, "File Selection:", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
 
-    Slider(confirmFileSlider ,g_psPanelsUI + 7, 0, 0, &g_sKentec320x240x16_SSD2119,
-           GrContextDpyWidthGet(psContext) / 2, 120, 220, 80, 0, 100, 0,
-           (SL_STYLE_FILL | SL_STYLE_BACKG_FILL | SL_STYLE_OUTLINE |
-           SL_STYLE_TEXT | SL_STYLE_BACKG_TEXT),
-           ClrGreen, ClrLightSlateGray, ClrGold, ClrGold, ClrIndianRed,
-           &g_sFontCm20, "Slide to Confirm File", 0, 0, UI_OnSliderChange);
+    GrStringDrawCentered(psContext, UI_Filenames[fileIndex], -1,
+                         GrContextDpyWidthGet(psContext) / 2, 72, 0);
+
 }
 
 //*****************************************************************************
@@ -696,14 +717,43 @@ void UI_SelectMotorTest(tWidget *psWidget)
 //*****************************************************************************
 void UI_MemSelectFile(tWidget *psWidget)
 {
-    if(g_ui32PanelUI != 3)
+    if(g_ui32PanelUI != 4)
     {
         return;
     }
-    else
+
+    uint32_t ui32Idx;
+
+    // Find the index of this push button.
+    for(ui32Idx = 0; ui32Idx < UI_NUM_FILES; ui32Idx++)
     {
-        g_ui32PanelUI = 3;
+        if(psWidget == (tWidget *)(pushButtons_MemSelectFile + ui32Idx))
+        {
+            break;
+        }
     }
+
+    // This will eventually be expanded to allow for more than 3 files
+    if(ui32Idx == UI_NUM_FILES)
+    {
+        return;
+    }
+
+    // Set File Index
+    fileIndex = ui32Idx;
+
+    // Remove the current panel.
+    WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Add and draw the new panel.
+    g_ui32PanelUI = 5;
+    WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+    WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
+
+    // Set the title of this panel.
+    CanvasTextSet(&g_sTitleUI, g_pcPanei32NamesUI[g_ui32PanelUI]);
+    WidgetPaint((tWidget *)&g_sTitleUI);
+
 }
 
 void UI_ReturnHome(tWidget * psWidget)
