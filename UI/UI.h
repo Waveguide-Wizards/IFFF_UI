@@ -80,8 +80,11 @@ void UI_OnMotorCompletePaint(tWidget *psWidget, tContext *psContext);   /*      
 void UI_ReturnHome(tWidget * psWidget);
 void UI_OnPrevious(tWidget *psWidget);
 void UI_OnNext(tWidget *psWidget);
+//
 void UI_SelectMemTest(tWidget *psWidget);
 void UI_SelectMotorTest(tWidget *psWidget);
+//
+void UI_MemSelectFile(tWidget *psWidget);
 //
 void UI_OnSliderChange(tWidget *psWidget, int32_t i32Value);
 

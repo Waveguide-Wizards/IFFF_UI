@@ -58,17 +58,6 @@ Canvas(g_sIntro, g_psPanelsUI + 1, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 // 2 - Integration Test Menu Panel
 //*****************************************************************************
-//Canvas(g_sTestMenu, g_psPanelsUI + 2, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
-//       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnTestMenuPaint);
-//tCanvasWidget pushButtonsInd_SelectIT[] =
-//{
-//    CanvasStruct(g_psPanelsUI + 2, pushButtonsInd_SelectIT + 1, 0,
-//                 &g_sKentec320x240x16_SSD2119, 280, 70, 20, 20,
-//                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
-//    CanvasStruct(g_psPanelsUI + 2, 0, 0,
-//                 &g_sKentec320x240x16_SSD2119, 280, 130, 20, 20,
-//                 CANVAS_STYLE_IMG, 0, 0, 0, 0, 0, g_pui8LightOff, 0),
-//};
 tPushButtonWidget pushButtons_SelectIT[] =
 {
     RectangularButtonStruct(g_psPanelsUI + 2, pushButtons_SelectIT + 1, 0,
@@ -96,9 +85,27 @@ Canvas(g_sMemTest, g_psPanelsUI + 3, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
 //*****************************************************************************
 // 4 - File System Panel
 //*****************************************************************************
-Canvas(g_sFilesystem, g_psPanelsUI + 4, 0, 0, &g_sKentec320x240x16_SSD2119, 0, 24,
-       320, 166, CANVAS_STYLE_APP_DRAWN, 0, 0, 0, 0, 0, 0, UI_OnFilesystemPaint);
-
+tPushButtonWidget pushButtons_MemSelectFile[] =
+{
+     RectangularButtonStruct(g_psPanelsUI + 4, pushButtons_MemSelectFile + 1, 0,
+                             &g_sKentec320x240x16_SSD2119, 60, 30, 50, 50,
+                             (PB_STYLE_IMG | PB_STYLE_TEXT |
+                              PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
+                             &g_sFontCm22, "1", g_pui8Blue50x50,
+                             g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
+     RectangularButtonStruct(g_psPanelsUI + 4, pushButtons_MemSelectFile + 2, 0,
+                             &g_sKentec320x240x16_SSD2119, 60, 85, 50, 50,
+                             (PB_STYLE_IMG | PB_STYLE_TEXT |
+                              PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
+                             &g_sFontCm22, "2", g_pui8Blue50x50,
+                             g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
+     RectangularButtonStruct(g_psPanelsUI + 4, 0, 0,
+                             &g_sKentec320x240x16_SSD2119, 60, 140, 50, 50,
+                             (PB_STYLE_IMG | PB_STYLE_TEXT |
+                              PB_STYLE_AUTO_REPEAT), 0, 0, 0, ClrSilver,
+                             &g_sFontCm22, "3", g_pui8Blue50x50,
+                             g_pui8Blue50x50Press, 125, 25, UI_MemSelectFile),
+};
 //*****************************************************************************
 // 5 - Confirm File Selection Panel
 //*****************************************************************************
@@ -155,7 +162,7 @@ tCanvasWidget g_psPanelsUI[] =
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sMemTest, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
-    CanvasStruct(0, 0, &g_sFilesystem, &g_sKentec320x240x16_SSD2119, 0, 24,
+    CanvasStruct(0, 0, pushButtons_MemSelectFile, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
     CanvasStruct(0, 0, &g_sFileSel, &g_sKentec320x240x16_SSD2119, 0, 24,
                  320, 166, CANVAS_STYLE_FILL, ClrBlack, 0, 0, 0, 0, 0, 0),
@@ -366,24 +373,8 @@ void UI_OnIntroPaint(tWidget *psWidget, tContext *psContext)
 //*****************************************************************************
 void UI_OnTestMenuPaint(tWidget *psWidget, tContext *psContext)
 {
-    // Display the introduction text in the canvas.
-    GrContextFontSet(psContext, &g_sFontCm18);
-    GrContextForegroundSet(psContext, ClrSilver);
-    GrStringDrawCentered(psContext, "~*~*~ Test Menu ~*~*~", -1,
-                         GrContextDpyWidthGet(psContext) / 2, 32, 0);
-
-    // Display memory test and motor test options.
-//    PushButtonImageOn(&pushButtons_SelectIT[0]);
-//    PushButtonTextOn(&pushButtons_SelectIT[0]);
-//    PushButtonFillOn(&pushButtons_SelectIT[0]);
-//    WidgetPaint((tWidget *)&pushButtons_SelectIT[0]);
-
-//    WidgetAdd(WIDGET_ROOT, (tWidget *)&pushButtons_SelectIT[0]);
-//    PushButtonImageOn(&pushButtons_SelectIT[1]);
-//    PushButtonTextOn(&pushButtons_SelectIT[1]);
-//    PushButtonFillOn(&pushButtons_SelectIT[1]);
-//    WidgetPaint((tWidget *)&pushButtons_SelectIT[1]);
-
+    // This has been replaced by button functionality
+    // See UI_SelectMemTest and UI_SelectMotorTest for more information
 }
 
 //*****************************************************************************
@@ -395,8 +386,16 @@ void UI_OnMemTestPaint(tWidget *psWidget, tContext *psContext)
     GrContextFontSet(psContext, &g_sFontCm18);
     GrContextForegroundSet(psContext, ClrSilver);
 
-    GrStringDrawCentered(psContext, "~*~*~ Mem Test ~*~*~", -1,
+    GrStringDrawCentered(psContext, "Memory Test", -1,
                          GrContextDpyWidthGet(psContext) / 2, 32, 0);
+    GrStringDrawCentered(psContext, "This is an integration test of", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 74, 0);
+    GrStringDrawCentered(psContext, "the USB file transfer, the Flash", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 92, 0);
+    GrStringDrawCentered(psContext, "memory peripheral, and the UI.", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 110, 0);
+    GrStringDrawCentered(psContext, "Continue to select a file from the USB", -1,
+                         GrContextDpyWidthGet(psContext) / 2, 164, 0);
 }
 
 //*****************************************************************************
@@ -692,6 +691,21 @@ void UI_SelectMotorTest(tWidget *psWidget)
     WidgetPaint((tWidget *)&g_sTitleUI);
 }
 
+//*****************************************************************************
+// Handles presses of the file select buttons
+//*****************************************************************************
+void UI_MemSelectFile(tWidget *psWidget)
+{
+    if(g_ui32PanelUI != 3)
+    {
+        return;
+    }
+    else
+    {
+        g_ui32PanelUI = 3;
+    }
+}
+
 void UI_ReturnHome(tWidget * psWidget)
 {
     // There is nothing to be done if the first panel is already being
@@ -716,41 +730,4 @@ void UI_ReturnHome(tWidget * psWidget)
     WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 }
 
-//*****************************************************************************
-// Handles notifications from the slider controls
-//*****************************************************************************
-void UI_OnSliderChange(tWidget *psWidget, int32_t i32Value)
-{
-    static char pcCanvasText[5];
-    static char pcSliderText[5];
 
-//    //
-//    // Is this the widget whose value we mirror in the canvas widget and the
-//    // locked slider?
-//    //
-//    if(psWidget == (tWidget *)&g_psSliders[SLIDER_CANVAS_VAL_INDEX])
-//    {
-//        //
-//        // Yes - update the canvas to show the slider value.
-//        //
-//        usprintf(pcCanvasText, "%3d%%", i32Value);
-//        CanvasTextSet(&g_sSliderValueCanvas, pcCanvasText);
-//        WidgetPaint((tWidget *)&g_sSliderValueCanvas);
-//
-//        //
-//        // Also update the value of the locked slider to reflect this one.
-//        //
-//        SliderValueSet(&g_psSliders[SLIDER_LOCKED_INDEX], i32Value);
-//        WidgetPaint((tWidget *)&g_psSliders[SLIDER_LOCKED_INDEX]);
-//    }
-//
-//    if(psWidget == (tWidget *)&g_psSliders[SLIDER_TEXT_VAL_INDEX])
-//    {
-//        //
-//        // Yes - update the canvas to show the slider value.
-//        //
-//        usprintf(pcSliderText, "%3d%%", i32Value);
-//        SliderTextSet(&g_psSliders[SLIDER_TEXT_VAL_INDEX], pcSliderText);
-//        WidgetPaint((tWidget *)&g_psSliders[SLIDER_TEXT_VAL_INDEX]);
-//    }
-}
