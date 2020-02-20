@@ -720,7 +720,7 @@ void UI_SelectMotorTest(tWidget *psWidget)
     WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
     // Add and draw the new panel.
-    g_ui32PanelUI = 8;
+    g_ui32PanelUI = 7;
     WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
     WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
@@ -791,11 +791,17 @@ void UI_SliderMemConfrimFile(tWidget * psWidget, int32_t i32Value)
         // reset to 0
         SliderValueSet(&slider_ConfirmFile, 0);
 
+        // Display the next button.
+        PushButtonImageOn(&g_sNextUI);
+        PushButtonTextOn(&g_sNextUI);
+        PushButtonFillOff(&g_sNextUI);
+        WidgetPaint((tWidget *)&g_sNextUI);
+
         // Remove the current panel.
         WidgetRemove((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
         // Add and draw the new panel.
-        g_ui32PanelUI = 6;
+        g_ui32PanelUI = 5;
         WidgetAdd(WIDGET_ROOT, (tWidget *)(g_psPanelsUI + g_ui32PanelUI));
         WidgetPaint((tWidget *)(g_psPanelsUI + g_ui32PanelUI));
 
